@@ -1,0 +1,11 @@
+# Core package: torch only (see pyproject.toml).
+torch>=2.0
+
+# reproduce/lm
+accelerate>=1.0
+datasets>=2.14
+PyYAML>=6.0
+
+# reproduce/vision
+torchvision>=0.15
+numpy>=1.24

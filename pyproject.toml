@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ak-momentum"
+version = "0.1.0"
+description = "Activation-Keyed Momentum: an anisotropic momentum update via the delta rule"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Euijin Hong", email = "ehong@andrew.cmu.edu" },
+    { name = "Guannan Qu", email = "gqu@andrew.cmu.edu" },
+]
+keywords = ["optimizer", "momentum", "delta-rule", "deep-learning", "pytorch"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["torch>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/99versatile/ak-momentum"
+Repository = "https://github.com/99versatile/ak-momentum"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ak_momentum"]
+
+[tool.hatch.build.targets.sdist]
+include = ["ak_momentum", "README.md", "LICENSE"]

@@ -1,0 +1,42 @@
+# ~67M proxy (d_model 384). All hyperparameters were tuned here.
+# 'lr' is the proxy-width base rate; the trainer applies the muP multiplier
+# base_width/d_model to the hidden and readout groups.
+model:
+  d_model: 384
+  n_layers: 24
+  n_heads: 6
+  vocab_size: 32000
+  max_position_embeddings: 2048
+  hidden_mult: 2.67
+  rope_base: 10000.0
+  layer_norm_epsilon: 1.0e-05
+  tie_word_embeddings: false
+  use_mup: true
+  mup_base_width: 384
+  mup_output_mult: 1.0
+optimizer:
+  name: adamw
+  lr: 0.004
+  betas:
+  - 0.95
+  - 0.99
+  eps: 1.0e-08
+  weight_decay: 0.1
+training:
+  max_steps: 19100
+  warmup_steps: 500
+  min_lr_ratio: 0.1
+  batch_size: 32
+  gradient_accumulation_steps: 8
+  seq_length: 2048
+  grad_clip: 1.0
+  eval_steps: 80
+  eval_max_batches: 100
+  log_steps: 50
+  bf16: true
+  num_workers: 2
+  seed: 42
+data:
+  data_dir: ./data/fineweb-edu
+  dataset_name: fineweb_edu_10bt_tokenized_2048
+  test_size: 5.71e-05
