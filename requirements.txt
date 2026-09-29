@@ -1,5 +1,6 @@
-# Core package: torch only (see pyproject.toml).
-torch>=2.0
+# The ak_momentum package itself needs only torch>=2.0 (see pyproject.toml).
+# The reproduction scripts need torch>=2.4, for nn.RMSNorm.
+torch>=2.4
 
 # reproduce/lm
 accelerate>=1.0

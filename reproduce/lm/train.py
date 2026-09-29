@@ -77,7 +77,8 @@ def build_optimizer(model, cfg: Dict[str, Any]):
     the O(1/n) width rule, embeddings and 1-D parameters stay at the O(1) rate
     with no weight decay.  The baseline drives all three from one rate (AdamW's
     own muP rule); AK-AdamW additionally tunes the auxiliary rate, because
-    tying it to a learning rate ~50x smaller would starve those parameters.
+    tying it to its hidden rate, ~40x below the tuned auxiliary one, would
+    starve those parameters.
     """
     o, m = cfg["optimizer"], cfg["model"]
     groups, stats = build_mup_param_groups(
@@ -189,7 +190,7 @@ def main() -> None:
               f"x {stats['lr_scale']:.4f})")
         print(f"head lr     : {stats['head_lr']:.4e}   other lr: {stats['other_lr']:.4e}")
         print(f"tokens/step : {tokens:,}   steps: {t['max_steps']:,}"
-              + (f"   (stopping after {stop:,})" if stop < t["max_steps"] else ""))
+              + (f"   (stopping after {stop:,})" if stop < t["max_steps"] else ""), flush=True)
 
     out_dir = Path(args.out) / Path(args.config).stem
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -216,12 +217,13 @@ def main() -> None:
                     if step % t.get("log_steps", 50) == 0 and accelerator.is_main_process:
                         print(f"step {step:>6}  loss {loss.item():.4f}  "
                               f"lr {scheduler.get_last_lr()[0]:.3e}  "
-                              f"{time.perf_counter() - start:.0f}s")
+                              f"{time.perf_counter() - start:.0f}s", flush=True)
                     if step % t["eval_steps"] == 0:
                         ev = evaluate(model, eval_loader, accelerator,
                                       t.get("eval_max_batches", 100))
                         if accelerator.is_main_process:
-                            print(f"step {step:>6}  eval_loss {ev:.4f}  ppl {math.exp(ev):.2f}")
+                            print(f"step {step:>6}  eval_loss {ev:.4f}  ppl {math.exp(ev):.2f}",
+                                  flush=True)
                             history.append({"step": step, "eval_loss": ev})
                             (out_dir / "metrics.json").write_text(json.dumps(history, indent=2))
 

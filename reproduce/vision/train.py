@@ -215,7 +215,7 @@ def main() -> None:
             json.dumps({"best_acc": best, "history": history}, indent=2))
         print(f"epoch {epoch:>3}/{args.epochs}  train {row['train_loss']:.4f} "
               f"({row['train_acc']:.2f}%)  val {row['val_loss']:.4f} "
-              f"({row['val_acc']:.2f}%)  best {best:.2f}%")
+              f"({row['val_acc']:.2f}%)  best {best:.2f}%", flush=True)
 
     print(f"best val acc {best:.2f}% in {(time.perf_counter() - start) / 60:.1f} min -> {out_dir}")
 

@@ -181,7 +181,7 @@ paper's sweep.
 ## 4. Differences from the original runs
 
 These scripts are a cleaned-up reimplementation of the private research code,
-verified to produce bit-identical optimizer updates. Three deliberate
+verified to produce bit-identical optimizer updates. Five deliberate
 differences are worth stating:
 
 1. **Seeding.** `--seed` here really seeds Python, NumPy, PyTorch and the data
